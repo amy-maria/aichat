@@ -1,9 +1,9 @@
 'use client';
 
-import { Input } from './ui/input';
-import { Button } from './ui/button';
 import { useChat } from 'ai/react';
 import { useRef, useEffect } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 export function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
