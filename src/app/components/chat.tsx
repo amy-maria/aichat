@@ -1,12 +1,17 @@
 'use client';
 
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { useChat } from 'ai/react';
 import { useRef, useEffect } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
 
 export function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    api: 'api/ex1',
+    onError: (e) => {
+      console.error(e);
+    },
+  });
   const chatParent = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -17,9 +22,9 @@ export function Chat() {
   });
 
   return (
-    <main className='flex flex-col w-full h-screen max-h-dvh bg-background'>
+    <main className='flex flex-col w-full h-screen max-h-dvh bg-sky-900'>
       <header className='p-4 border-b w-full max-w-3xl mx-auto'>
-        <h1 className='text-2xl font-bold'>AI Chat</h1>
+        <h1 className='text-2xl font-bold'>LangChain Chat</h1>
       </header>
 
       <section className='p-4'>
@@ -27,7 +32,7 @@ export function Chat() {
           onSubmit={handleSubmit}
           className='flex w-full max-w-3xl mx-auto items-center'>
           <Input
-            className='flex-1 min-h-[40px]'
+            className='flex-1 min-h-[40px] bg-sky-200'
             placeholder='Type your question here...'
             type='text'
             value={input}
@@ -44,24 +49,21 @@ export function Chat() {
           ref={chatParent}
           className='h-1 p-4 flex-grow bg-muted/50 rounded-lg overflow-y-auto flex flex-col gap-4'>
           {messages.map((m, index) => (
-            <>
+            <div key={index}>
               {m.role === 'user' ? (
-                <li key={index} className='flex flex-row'>
+                <li key={m.id} className='flex flex-row'>
                   <div className='rounded-xl p-4 bg-background shadow-md flex'>
                     <p className='text-primary'>{m.content}</p>
                   </div>
                 </li>
               ) : (
-                <li key={index} className='flex flex-row-reverse'>
+                <li key={m.id} className='flex flex-row-reverse'>
                   <div className='rounded-xl p-4 bg-background shadow-md flex w-3/4'>
-                    <p className='text-primary'>
-                      <span className='font-bold'>Answer: </span>
-                      {m.content}
-                    </p>
+                    <p className='text-primary'>{m.content}</p>
                   </div>
                 </li>
               )}
-            </>
+            </div>
           ))}
         </ul>
       </section>

@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
-//import { openai } from '@ai-sdk/openai';
 import { StreamingTextResponse, OpenAIStream } from 'ai';
+
+export const dynamic = 'force-dynamic';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     stream: true,
     messages: messages,
   });
-  console.log(response);
+
   // Convert the response into a friendly text-stream
   const stream = OpenAIStream(response);
   // Respond with the stream
