@@ -7,7 +7,7 @@ import { useRef, useEffect } from 'react';
 
 export function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
-    api: 'api/ex1',
+    api: 'api/ex2',
     onError: (e) => {
       console.error(e);
     },
@@ -22,9 +22,12 @@ export function Chat() {
   });
 
   return (
-    <main className='flex flex-col w-full h-screen max-h-dvh bg-sky-900'>
+    <main className='flex flex-col w-full h-screen max-h-dvh bg-gradient-to-r from-indigo-500 to-indigo-900'>
       <header className='p-4 border-b w-full max-w-3xl mx-auto'>
-        <h1 className='text-2xl font-bold'>LangChain Chat</h1>
+        <h1 className='text-2xl font-bold'>
+          AI RAG app with LangChain & Vercel
+        </h1>
+        <h2 className='text-xl'>Chat with History</h2>
       </header>
 
       <section className='p-4'>
@@ -32,8 +35,8 @@ export function Chat() {
           onSubmit={handleSubmit}
           className='flex w-full max-w-3xl mx-auto items-center'>
           <Input
-            className='flex-1 min-h-[40px] bg-sky-200'
-            placeholder='Type your question here...'
+            className='flex-1 min-h-[40px] bg-indigo-200'
+            placeholder='Type your question here... or ask for a joke'
             type='text'
             value={input}
             onChange={handleInputChange}
@@ -47,7 +50,7 @@ export function Chat() {
       <section className='container px-0 pb-10 flex flex-col flex-grow gap-4 mx-auto max-w-3xl'>
         <ul
           ref={chatParent}
-          className='h-1 p-4 flex-grow bg-muted/50 rounded-lg overflow-y-auto flex flex-col gap-4'>
+          className='h-1 p-4 flex-grow bg-indigo-500 bg-muted/30 rounded-lg overflow-y-auto flex flex-col gap-4'>
           {messages.map((m, index) => (
             <div key={index}>
               {m.role === 'user' ? (
